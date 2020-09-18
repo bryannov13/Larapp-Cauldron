@@ -1,0 +1,415 @@
+{
+    "name": "trucks_admin",
+    "description": ":v",
+    "databaseType": "Sql Server",
+    "tables": [
+        {
+            "name": "Activos",
+            "fields": [
+                {
+                    "name": "Num_Factura",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Fecha_Factura",
+                    "type": "DateTime",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Proveedor",
+                    "type": "Proveedor",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Importe",
+                    "type": "Floating",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Tipo",
+                    "type": "Tipo_Activo",
+                    "required": "True",
+                    "unique":"False",
+                    "Comment":"unidad, adaptacion"
+                },
+                {
+                    "name": "Descripcion",
+                    "type": "String",
+                    "required": "False",
+                    "unique":"False"
+                }
+            ]
+        },
+        {
+            "name": "Tipo_Activo",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Tipo_vehiculo",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Marca_vehiculo",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Edicion",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Anio",
+                    "type": "Integer",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Marca",
+                    "type": "Marca_vehiculo",
+                    "required": "True",
+                    "unique":"False"
+                }
+            ]
+        },
+        {
+            "name": "Color",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Vehiculo",
+            "fields": [
+                {
+                    "name": "Activo",
+                    "type": "Activos",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Edicion",
+                    "type": "Edicion",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Color",
+                    "type": "Color",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Serie",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Motor",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Kilometraje",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Placas",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Chofer",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Arrendatario",
+                    "type": "Arrendatario",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Contrato",
+                    "type": "String",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Foto",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Observaciones",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                }
+            ]
+        },
+        {
+            "name": "Arrendatario",
+            "fields": [
+                {
+                    "name": "Empresa",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Nombre_Contacto",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Telefono",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Proveedor",
+            "fields": [
+                {
+                    "name": "Empresa",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Nombre_Contacto",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Telefono",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Seguros",
+            "fields": [
+                {
+                    "name": "Poliza",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Vehiculo",
+                    "type": "Vehiculo",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Inciso",
+                    "type": "String",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "RC",
+                    "type": "String",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Tipo_carga",
+                    "type": "String",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Fecha_alta",
+                    "type": "DateTime",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Fecha_Vencimiento",
+                    "type": "DateTime",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Prima_neta",
+                    "type": "Floating",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Gastos",
+                    "type": "Floating",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Observaciones",
+                    "type": "String",
+                    "required": "False",
+                    "unique":"False"
+                }
+            ]
+        },
+        { 
+            "name": "Placas_y_refrendos",
+            "fields": [
+                {
+                    "name": "Fecha",
+                    "type": "DateTime",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Importe",
+                    "type": "Floating",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Vehiculo",
+                    "type": "Vehiculo",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Infracciones",
+                    "type": "Floating",
+                    "required": "False",
+                    "unique":"False"
+                }
+            ]
+        },
+        {
+            "name": "Contratos",
+            "fields": [
+                {
+                    "name": "Fecha_inicio",
+                    "type": "DateTime",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Fecha_fin",
+                    "type": "DateTime",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Vehiculo",
+                    "type": "Vehiculo",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Arrendatario",
+                    "type": "Arrendatario",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Pago_inicial",
+                    "type": "Floating",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Valor_residual",
+                    "type": "Floating",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Observaciones",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"False"
+                }
+            ]
+        },
+        {
+            "name": "Calendario_pagos",
+            "fields": [
+                {
+                    "name": "Contrato",
+                    "type": "Contratos",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Fecha_pago",
+                    "type": "DateTime",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Monto",
+                    "type": "Floating",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "Observaciones",
+                    "type": "Sting",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
+                    "name": "es_ultimo_del_contrato",
+                    "type": "Boolean",
+                    "required": "False",
+                    "unique":"False"
+                }
+            ]
+        }
+    ]
+}

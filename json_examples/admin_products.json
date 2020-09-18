@@ -1,0 +1,39 @@
+{
+    "name": "admin_products",
+    "description": ":v",
+    "databaseType": "Postgresql",
+    "tables": 
+        [
+            {
+                "name": "Categoria_producto",
+                "fields": [
+                    {
+                        "name": "Nombre",
+                        "type": "String",
+                        "required": "True",
+                        "unique":"True"
+                    }
+                ]
+            },
+            {
+                "name": "Producto",
+                "fields": [
+                    {
+                        "name": "Nombre",
+                        "type": "String",
+                        "required": "True"
+                    },
+                    {
+                        "name": "Categoria",
+                        "type": "Categoria_producto",
+                        "required": "True"
+                    },
+                    {
+                        "name": "Stock",
+                        "type": "Integer",
+                        "required": "True"
+                    }
+                ]
+            }
+        ]
+}

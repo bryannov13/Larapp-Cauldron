@@ -1,0 +1,40 @@
+{
+    "name": "Persons_pets",
+    "description": ":v",
+    "databaseType": "PostgreSql",
+    "tables": [
+        {
+            "name": "Person",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Age",
+                    "type": "Integer",
+                    "required": "True",
+                    "unique":"False"
+                    
+                }
+            ]
+        },
+        {
+            "name": "Pets",
+            "fields": [
+                {
+                    "name": "Name",
+                    "type": "String",
+                    "required": "True"
+                },
+                {
+                    "name": "Owner",
+                    "type": "Person",
+                    "required": "False"
+                }
+            ]
+        }
+    ]
+}
