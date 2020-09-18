@@ -4,7 +4,7 @@
     "databaseType": "Sql Server",
     "tables": [
         {
-            "name": "Activos",
+            "name": "Activo",
             "fields": [
                 {
                     "name": "Num_Factura",
@@ -32,7 +32,7 @@
                 },
                 {
                     "name": "Tipo",
-                    "type": "Tipo_Activo",
+                    "type": "Tipo_activo",
                     "required": "True",
                     "unique":"False",
                     "Comment":"unidad, adaptacion"
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "name": "Tipo_Activo",
+            "name": "Tipo_activo",
             "fields": [
                 {
                     "name": "Name",
@@ -95,7 +95,7 @@
                 },
                 {
                     "name": "Marca",
-                    "type": "Marca_vehiculo",
+                    "type": "marca_vehiculo",
                     "required": "True",
                     "unique":"False"
                 }
@@ -117,7 +117,13 @@
             "fields": [
                 {
                     "name": "Activo",
-                    "type": "Activos",
+                    "type": "Activo",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Tipo_vehiculo",
+                    "type": "Activo",
                     "required": "True",
                     "unique":"False"
                 },
@@ -236,7 +242,7 @@
             ]
         },
         {
-            "name": "Seguros",
+            "name": "Seguro",
             "fields": [
                 {
                     "name": "Poliza",
@@ -301,7 +307,7 @@
             ]
         },
         { 
-            "name": "Placas_y_refrendos",
+            "name": "Placa_y_refrendo",
             "fields": [
                 {
                     "name": "Fecha",
@@ -377,11 +383,17 @@
             ]
         },
         {
-            "name": "Calendario_pagos",
+            "name": "Calendario_pago",
             "fields": [
                 {
                     "name": "Contrato",
                     "type": "Contratos",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Numero_pago",
+                    "type": "Integer",
                     "required": "True",
                     "unique":"False"
                 },
