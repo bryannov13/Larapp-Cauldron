@@ -23,7 +23,7 @@ class migration_generator():
     
     def _set_fields(self,default_fields:bool=True)->list:
         arra_txt = []
-        arra_txt.append("\t\t\t$table->increments('id');\n")
+        arra_txt.append("\t\t\t$table->bigIncrements('id');\n")
         for i,field in enumerate(self.fields):
             
             if field['type'] == 'Integer': arra_txt.append("\t\t\t$table->integer('"+field['name']+"');\n")
