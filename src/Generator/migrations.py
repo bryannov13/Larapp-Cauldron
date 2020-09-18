@@ -85,7 +85,7 @@ class Migrations_Generator(object):
         for m in app["tables"]:
             print("Cooking "+m["name"]+" model ...")
             model_ = migration_generator(m["name"],m['fields'])
-            model_.create(path= out_path+project_name+"/"+app["name"]+"/Migrations",default_fields=True)
+            model_.create(path= out_path+project_name+"/database/migrations",default_fields=True)
             #model_.set_fields(m["fields"])
         try:
             pass

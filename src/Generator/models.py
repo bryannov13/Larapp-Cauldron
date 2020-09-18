@@ -71,7 +71,7 @@ class Models_Generator(object):
             print("Cooking "+m["name"]+" model ...")            
             model_ = model_generator(m["name"])
             model_.set_fields(m["fields"])
-            model_.create(path= out_path+project_name+"/"+app["name"]+"Models",default_fields=True)
+            model_.create(path= out_path+project_name+"/"+app["name"]+"/Models",default_fields=True)
         try:
             pass
             
