@@ -24,7 +24,7 @@ class model_generator():
         
         
     
-    def __set_default_fields(self): return "\n\tprotected $hidden = ['created_at', 'updated_at'];\n"
+    def __set_default_fields(self): return "\n\tprotected $hidden = ['created_at', 'updated_at', 'status'];\n"
         
     
     def set_file(self,path):
@@ -71,7 +71,7 @@ class Models_Generator(object):
             print("Cooking "+m["name"]+" model ...")            
             model_ = model_generator(m["name"])
             model_.set_fields(m["fields"])
-            model_.create(path= out_path+project_name+"/"+app["name"],default_fields=True)
+            model_.create(path= out_path+project_name+"/"+app["name"]+"Models",default_fields=True)
         try:
             pass
             
@@ -83,54 +83,13 @@ class Models_Generator(object):
         
     pass
 
-
 if __name__ == "__main__":
     
-    app= {
-        "name": "EjemploAlv",
-        "description": ":v",
-        "databaseType": "Sqlite",
-        "tables": [
-                    {
-                        "name": "Persona",
-                        "fields": [
-                            {
-                                "name": "Nombre",
-                                "type": "String",
-                                "required": "True",
-                                "unique":"True" #comentar a samy de agregar este campo
-                            },
-                            {
-                                "name": "Edad",
-                                "type": "Integer",
-                                "required": "True",
-                                "unique":"False" #comentar a samy de agregar este campo
-                                
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Mascota",
-                        "fields": [
-                            {
-                                "name": "Nombre",
-                                "type": "String",
-                                "required": "True"
-                            },
-                            {
-                                "name": "Propietario",
-                                "type": "Persona",
-                                "required": "False"
-                            }
-                        ]
-                    }
-                ]
-            }
+    from json import load
+    try:
+        app= load(open('../../json_examples/trucks_admin.json'))
+        a = Models_Generator(app,'project','../../out/')
+    except Exception as e:
+        print(e)
     
-    #print(app['tables'][0]['fields'])
-    #s=model_generator(app['tables'][0]['name'])
-    #s.set_fields(app['tables'][0]['fields'])
-    #print(s.fields)
-
-
-    a = Models_Generator(app,'project','../../out/')
+    
