@@ -169,13 +169,13 @@ class controller_generator():
 class Controllers_Generator(object):
     def __init__(self,app:object,project_name,out_path):
         
-        for m in app["tables"]:
-            print("Controlling "+m["name"]+" model ...")
-            model_ = controller_generator(m["name"],m['fields'],app["name"])
-            model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Controllers",default_fields=True)
-            #model_.set_fields(m["fields"])
         try:
-            pass
+            for m in app["tables"]:
+                print("Controlling "+m["name"]+" model ...")
+                model_ = controller_generator(m["name"],m['fields'],app["name"])
+                model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Controllers",default_fields=True)
+                #model_.set_fields(m["fields"])
+                pass
         except Exception as e:
             print("Controller:\n")
             print(e)
