@@ -6,17 +6,18 @@ from tools import set_directory
 
 class request_generator():
     
-    def __init__(self, model_name:str,fields:list):
+    def __init__(self, model_name:str,fields:list,app:str="App"):
         self.txt = []
         self.fields=fields
         self.model_name = model_name
+        self.app_name = app
         
     
     
 
     def __set_default_dependencies(self):
         self.txt.append("<?php\n")
-        self.txt.append("namespace App\Http\Requests;\n")
+        self.txt.append("namespace "+str(self.app_name)+"\Http\Requests;\n")
         self.txt.append("use Illuminate\Foundation\Http\FormRequest;\n")
         self.txt.append("\n")
     
@@ -91,7 +92,7 @@ class Requests_Generator(object):
         
         for m in app["tables"]:
             print("Requesting "+m["name"]+" model ...")
-            model_ = request_generator(m["name"],m['fields'])
+            model_ = request_generator(m["name"],m['fields'],app['name'])
             model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Request",default_fields=True)
             #model_.set_fields(m["fields"])
         try:
