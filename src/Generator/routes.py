@@ -1,7 +1,7 @@
 from os import path as p
 from os import makedirs
-from tools import get_file
-from tools import set_directory
+from .tools import get_file
+from .tools import set_directory
 
 
 class route_generator():

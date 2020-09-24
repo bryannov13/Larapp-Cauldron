@@ -1,5 +1,5 @@
 {
-    "name": "trucks_admin",
+    "name": "app",
     "description": ":v",
     "databaseType": "Sql Server",
     "tables": [
