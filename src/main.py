@@ -7,45 +7,44 @@ from Generator.routes import Routes_Generator
 from Generator.views import Views_Generator
 
 from json import load
+from shutil import rmtree
 
 class projectGenerator():
-    def __init__(self, input_path:str, out_path:str='../out/'):
+    def __init__(self, input_path:str, out_path:str='../out/', project_name:str = 'project'):
         #self.app = App
         self.app= load(open(input_path))
         self.out_path = out_path
+        self.project_name = project_name
         pass
 
-    def createControllers(self):
-        try: Controllers_Generator(self.app,'project',self.out_path)
-        except Exception as e: print("Fallo al crear controladores\n"+e)
+    def createControllers(self): Controllers_Generator(self.app,self.project_name,self.out_path)
         
-    def createJs(self):
-        try: Js_Generator(self.app,'project',self.out_path)
-        except Exception as e: print("Fallo al crear JS\n"+e)
-    
-    def createMigrations(self):
-        try: Migrations_Generator(self.app,'project',self.out_path)
-        except Exception as e: print("Fallo al crear Migraciones\n"+e)
+    def createJs(self): Js_Generator(self.app,self.project_name,self.out_path)
         
-    def createModels(self):
-        try: Models_Generator(self.app,'project',self.out_path)
-        except Exception as e: print("Fallo al crear Modelos\n"+e)
-    
-    def createRequest(self):
-        try: Requests_Generator(self.app,'project',self.out_path)
-        except Exception as e: print("Fallo al crear Request\n"+e)
+    def createMigrations(self): Migrations_Generator(self.app,self.project_name,self.out_path)
         
-    def createRoutes(self):
-        try: Routes_Generator(self.app,'project',self.out_path)
-        except Exception as e: print("Fallo al crear Rutas\n"+e)
-    
+    def createModels(self): Models_Generator(self.app,self.project_name,self.out_path)
+        
+    def createRequest(self): Requests_Generator(self.app,self.project_name,self.out_path)
+        
+    def createRoutes(self): Routes_Generator(self.app,self.project_name,self.out_path)
+        
+    def createViews(self): Views_Generator(self.app,self.project_name,self.out_path)
+        
     def start(self):
-        self.createControllers()
-        self.createJs()
-        self.createMigrations()
-        self.createModels()
-        self.createRequest()
-        self.createRoutes()
+        try:
+            self.createControllers()
+            self.createJs()
+            self.createMigrations()
+            self.createModels()
+            self.createRequest()
+            self.createRoutes()
+            self.createViews()
+        except Exception as e:
+            print(e)
+            rmtree(self.out_path+"/"+self.project_name)
+            #rmtree(self.out_path)
+            pass
 
         pass
 
