@@ -1,0 +1,9 @@
+
+
+Quitar prefix y group en las creaciones de ruta
+
+Crear algoritmo de ordenamiento de tablas segun si estas ya han sido declaradas antes
+
+Generador de archivo de menu
+
+Crear vistas en main
