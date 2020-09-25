@@ -15,7 +15,8 @@ class controller_generator():
     
     def __set_default_dependencies(self):
         self.txt.append("<?php\n")
-        self.txt.append("namespace "+self.app_name+"\Http\Controllers;\n") #aqui hay que cambiar "app" por el nombre de la aplicacion
+        self.txt.append("namespace "+self.app_name+"\Http\Controllers;\n") 
+        self.txt.append("use "+self.app_name+"\Http\Controllers\Controller;\n")
         self.txt.append("use Illuminate\Http\\"+self.model_name+"Request;\n")
         self.txt.append("use "+self.app_name+"\Models\\"+self.model_name+";\n")#revisr si va el doble diagonal
         self.txt.append("use Yajra\Datatables\Datatables;\n")
@@ -169,18 +170,11 @@ class controller_generator():
 class Controllers_Generator(object):
     def __init__(self,app:object,project_name,out_path):
         
-        try:
-            for m in app["tables"]:
-                print("Controlling "+m["name"]+" model ...")
-                model_ = controller_generator(m["name"],m['fields'],app["name"])
-                model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Controllers",default_fields=True)
-                #model_.set_fields(m["fields"])
-                pass
-        except Exception as e:
-            print("Controller:\n")
-            print(e)
-            pass
-                
+        for m in app["tables"]:
+            print("Controlling "+m["name"]+" model ...")
+            model_ = controller_generator(m["name"],m['fields'],app["name"])
+            model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Controllers",default_fields=True)
+            #model_.set_fields(m["fields"])
         
     pass
 
