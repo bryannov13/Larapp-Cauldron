@@ -86,18 +86,11 @@ class js_generator():
 class Js_Generator(object):
     def __init__(self,app:object,project_name,out_path):
         
-        try:
-            for m in app["tables"]:
-                print("Js_ing "+m["name"]+" model ...")
-                model_ = js_generator(m["name"],m['fields'],app["name"])
-                model_.create(path= out_path+project_name+"/public/assets/js",default_fields=True)
-                #model_.set_fields(m["fields"])
-                pass
-        except Exception as e:
-            print("Js file:\n")
-            print(e)
-            pass
-                
+        for m in app["tables"]:
+            print("Js_ing "+m["name"]+" model ...")
+            model_ = js_generator(m["name"],m['fields'],app["name"])
+            model_.create(path= out_path+project_name+"/public/assets/js",default_fields=True)
+            #model_.set_fields(m["fields"])
         
     pass
 
