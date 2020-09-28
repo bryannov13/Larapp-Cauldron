@@ -93,7 +93,7 @@ class Requests_Generator(object):
         for m in app["tables"]:
             print("Requesting "+m["name"]+" model ...")
             model_ = request_generator(m["name"],m['fields'],app['name'])
-            model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Request",default_fields=True)
+            model_.create(path= out_path+project_name+"/"+app["name"]+"/Http/Requests",default_fields=True)
             #model_.set_fields(m["fields"])
         try:
             pass

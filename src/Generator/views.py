@@ -58,7 +58,7 @@ class index_generator():
         
         self.txt.append("@include('alerts.message')\n")
         self.txt.append("@include('alerts.request')\n")
-        self.txt.append("@include('"+self.model_name+".form-modal')\n\n")
+        #self.txt.append("@include('"+self.model_name+".form-modal')\n\n")
         
         #Card
 
@@ -68,9 +68,9 @@ class index_generator():
         self.txt.append('\t\t\t\t<div class="row">\n')
         self.txt.append('\t\t\t\t\t<div class="col-12">\n')
         self.txt.append('\t\t\t\t\t\t@if(auth()->user()->hasPermission("Agregar-'+self.model_name+'"))\n')
-        self.txt.append('\t\t\t\t\t\t\t<button class="btn btn-default pull-right btn-wd" onclick="create()">\n')
-        self.txt.append('\t\t\t\t\t\t\t\t<i class="fa fa-plus-circle"></i> <span>Agregar</span>\n')
-        self.txt.append('\t\t\t\t\t\t\t</button>\n')
+        self.txt.append('\t\t\t\t\t\t\t<a href="/Activo/create" class="btn btn-primary-ws pull-right btn-wd">\n')
+        self.txt.append('\t\t\t\t\t\t\t\t<i class="fa fa-plus-circle"></i><span>Agregar</span>\n')
+        self.txt.append('\t\t\t\t\t\t\t</a>\n')
         self.txt.append('\t\t\t\t\t\t@endif\n')
         self.txt.append('\t\t\t\t\t</div>\n')
         self.txt.append('\t\t\t\t\t<div class="col-12">\n')
@@ -129,7 +129,7 @@ class form_generator():
                 arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-12">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($register) ? $register->"'+field['name']+'" : '')}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : '')}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
 
@@ -145,7 +145,7 @@ class form_generator():
                 arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-12">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : '')}}" data-parsley-required>\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
             else: 
@@ -154,9 +154,11 @@ class form_generator():
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>@lang("'+field['name']+'"):</label>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@foreach($items as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(isset($register) && $register->'+field['name']+' == $item->id) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($items)\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($items as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(isset($register) && $register->'+field['name']+' == $item->id) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t</select>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
@@ -172,7 +174,7 @@ class form_generator():
             
         else: model_file = open(path,"w")
         
-        #self.__set_default_dependencies()
+        self.__set_default_dependencies()
         
         return model_file
         

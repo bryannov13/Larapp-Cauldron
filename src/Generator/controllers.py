@@ -15,10 +15,10 @@ class controller_generator():
     
     def __set_default_dependencies(self):
         self.txt.append("<?php\n")
-        self.txt.append("namespace "+self.app_name+"\Http\Controllers;\n") 
-        self.txt.append("use "+self.app_name+"\Http\Controllers\Controller;\n")
-        self.txt.append("use Illuminate\Http\\"+self.model_name+"Request;\n")
-        self.txt.append("use "+self.app_name+"\Models\\"+self.model_name+";\n")#revisr si va el doble diagonal
+        self.txt.append("namespace "+self.app_name.capitalize()+"\Http\Controllers;\n") 
+        #self.txt.append("use "+self.app_name.capitalize()+"\Http\Controllers\Controller;\n")
+        self.txt.append("use Illuminate\Http\\"+self.model_name+"Requests;\n")
+        self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+self.model_name+";\n")#revisr si va el doble diagonal
         self.txt.append("use Yajra\Datatables\Datatables;\n")
         self.txt.append("\n")
     
@@ -73,9 +73,9 @@ class controller_generator():
         self.txt.append("\tpublic function grid("+self.model_name+"Request $request)\n")
         self.txt.append("\t{\n")
         self.txt.append("\t\t$records = "+self.model_name+"::select('*');\n\n")
-        self.txt.append("\t\tif($request->inactive == 0) $records->where('estatus','1');\n\n")
+        self.txt.append("\t\tif($request->inactive != 0) $records->where('status','1');\n\n")
         self.txt.append("\t\treturn Datatables::of($records)\n")
-        self.txt.append("\t\t\t->add_column('actions',function($record){\n")
+        self.txt.append("\t\t\t->addColumn('actions',function($record){\n")
         self.txt.append("\t\t\t\treturn view('common.modal_buttons',[\n")
         self.txt.append("\t\t\t\t\t'record'     => $record,\n")
         self.txt.append("\t\t\t\t\t'url'        => '"+self.model_name+"',\n")
