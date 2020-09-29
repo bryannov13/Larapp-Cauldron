@@ -10,3 +10,4 @@ Crear vistas en main
 
 Modificar creador de Migraciones
 
+Se modificaron las migraciones, los metodos show y edit, y falta modificar las vistas o crear una funcion show en common-catalogos.jss

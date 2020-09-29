@@ -41,7 +41,7 @@ class migration_generator():
             
         return arra_txt
         
-    def __set_default_fields(self)->list: return ["\t\t\t$table->boolean('status');\n","\n\t\t\t$table->timestamps();\n"]
+    def __set_default_fields(self)->list: return ["\t\t\t$table->boolean('status')->default(1);\n","\n\t\t\t$table->timestamps();\n"]
         
     def set_file(self,path):
         if not p.exists(path):
