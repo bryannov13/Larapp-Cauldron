@@ -93,7 +93,7 @@ class Log_Generator(object):
         print("Creando archivo log.php.bak ...")
         for i,m in enumerate(app["tables"]):
             if i: self.arr_txt.append(",\n")
-            self.arr_txt.append("\t\t\t'"+m["name"]+"'")
+            self.arr_txt.append("\t\t\t '"+m["name"]+"'=>'Name'")
 
             #model_ = js_generator(m["name"],m['fields'],app["name"])
             #model_.create(path= out_path+project_name+"/config/",default_fields=True)
