@@ -130,30 +130,26 @@ class form_generator():
         for i,field in enumerate(self.fields):
             #if i: arra_txt.append(',\n')
 
-            if field['type'] == 'Integer' or field['type'] == 'Floating':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
+            arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
 
+            try: title = field['title']
+            except: title = field['name']
+
+            #Label
+            arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+title+': <span style="color:red">*</span></label>\n')
+
+            if field['type'] == 'Integer' or field['type'] == 'Floating':
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
 
             elif field['type'] == 'String':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
 
 
-            elif field['type'] == 'DateTime': 
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
+            elif field['type'] == 'DateTime':
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required>\n')
 
-            else: 
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="form-group col-md-'+col_space+'">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>@lang("'+field['name']+'"):</label>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
+            else:
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select title="'+title+'" type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($items)\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($items as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
@@ -161,7 +157,8 @@ class form_generator():
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t</select>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
+            
+            arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
         arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
                 
         #if default_fields: arra_txt.extend(self.__set_default_fields())
