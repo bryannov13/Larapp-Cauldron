@@ -1,23 +1,24 @@
 from os import path as p
 from os import makedirs
-from .tools import get_file
-from .tools import set_directory
+from tools import get_file
+from tools import set_directory
 
 
 class index_generator():
     
-    def __init__(self, model_name:str,fields:list,app_name:str="App"):
+    def __init__(self, model_name:str,model_title:str,fields:list,app_name:str="App"):
         self.txt = []
         self.fields=fields
         self.app_name = app_name
         self.model_name = model_name
+        self.model_title = model_title
         
     
     def __set_default_dependencies(self):
         #Dependencies
         self.txt.append("<!--"+str(self.model_name)+"_model -->\n")
         self.txt.append("@extends('layouts.app')\n")
-        self.txt.append("@section('top-title', '"+self.model_name+"')\n")
+        self.txt.append("@section('top-title', '"+self.model_title+"')\n")
         self.txt.append("@section('content')\n\n")
 
     def _set_fields(self,default_fields:bool=True)->list:
@@ -104,18 +105,19 @@ class index_generator():
 
 class form_generator():
     
-    def __init__(self, model_name:str,fields:list,app_name:str="App"):
+    def __init__(self, model_name:str,model_title:str,fields:list,app_name:str="App"):
         self.txt = []
         self.fields=fields
         self.app_name = app_name
         self.model_name = model_name
+        self.model_title = model_title
         
     
     def __set_default_dependencies(self):
         #Dependencies
         self.txt.append("<!--"+str(self.model_name)+"_model -->\n")
         self.txt.append("@extends('layouts.app')\n")
-        self.txt.append("@section('top-title', '"+self.model_name+"')\n")
+        self.txt.append("@section('top-title', '"+self.model_title+"')\n")
         self.txt.append("@section('content')\n\n")
 
 
@@ -235,9 +237,13 @@ class Views_Generator(object):
         
         try:
             for m in app["tables"]:
+
+                try:title = m['title']
+                except:title = m['name']
+                
                 print("Controlling "+m["name"]+" model ...")
-                index_generator(m["name"],m['fields'],app["name"]).create(path= out_path+project_name+"/resources/views/"+app["name"]+"/"+m["name"],default_fields=True)
-                form_generator(m["name"],m['fields'],app["name"]).create(path= out_path+project_name+"/resources/views/"+app["name"]+"/"+m["name"],default_fields=True)
+                index_generator(m["name"],title,m['fields'],app["name"]).create(path= out_path+project_name+"/resources/views/"+app["name"]+"/"+m["name"],default_fields=True)
+                form_generator(m["name"],title,m['fields'],app["name"]).create(path= out_path+project_name+"/resources/views/"+app["name"]+"/"+m["name"],default_fields=True)
                 
                 #model_.set_fields(m["fields"]) resources\views\area\index.blade.php
                 pass
