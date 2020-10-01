@@ -4,16 +4,32 @@
     "databaseType": "Sql Server",
     "tables": [
         {
+            "name": "Tipo_activo",
+            "title": "Tipo de Activo",
+            "fields": [
+                {
+                    "name": "Name",
+                    "title": "Tipo de Activo",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
             "name": "Activo",
+            "title":"Facturas",
             "fields": [
                 {
                     "name": "Num_Factura",
+                    "title":"Num Factura",
                     "type": "String",
                     "required": "True",
                     "unique":"True"
                 },
                 {
                     "name": "Fecha_Factura",
+                    "title":"Fecha emision",
                     "type": "DateTime",
                     "required": "True",
                     "unique":"False"
@@ -46,21 +62,12 @@
             ]
         },
         {
-            "name": "Tipo_activo",
-            "fields": [
-                {
-                    "name": "Name",
-                    "type": "String",
-                    "required": "True",
-                    "unique":"True"
-                }
-            ]
-        },
-        {
             "name": "Tipo_vehiculo",
+            "title":"Tipo de Unidad",
             "fields": [
                 {
                     "name": "Name",
+                    "title":"Tipo de Unidad",
                     "type": "String",
                     "required": "True",
                     "unique":"True"
@@ -69,9 +76,11 @@
         },
         {
             "name": "Marca_vehiculo",
+            "title":"Marca",
             "fields": [
                 {
                     "name": "Name",
+                    "title":"Marca",
                     "type": "String",
                     "required": "True",
                     "unique":"True"
@@ -80,15 +89,18 @@
         },
         {
             "name": "Edicion",
+            "title":"Clase",
             "fields": [
                 {
                     "name": "Name",
+                    "title":"Clase",
                     "type": "String",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Anio",
+                    "title":"Modelo",
                     "type": "Integer",
                     "required": "True",
                     "unique":"False"
@@ -106,6 +118,7 @@
             "fields": [
                 {
                     "name": "Name",
+                    "title":"Color",
                     "type": "String",
                     "required": "True",
                     "unique":"True"
@@ -114,21 +127,25 @@
         },
         {
             "name": "Vehiculo",
+            "title":"Unidad",
             "fields": [
                 {
                     "name": "Activo",
+                    "title":"Factura",
                     "type": "Activo",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Tipo_vehiculo",
-                    "type": "Activo",
+                    "title":"Tipo de vehiculo",
+                    "type": "Tipo_vehiculo",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Edicion",
+                    "title":"Clase",
                     "type": "Edicion",
                     "required": "True",
                     "unique":"False"
@@ -141,12 +158,14 @@
                 },
                 {
                     "name": "Serie",
+                    "title":"Num Serie",
                     "type": "String",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Motor",
+                    "title":"Num Motor",
                     "type": "String",
                     "required": "True",
                     "unique":"False"
@@ -165,7 +184,7 @@
                 },
                 {
                     "name": "Chofer",
-                    "type": "String",
+                    "type": "Chofer",
                     "required": "True",
                     "unique":"False"
                 },
@@ -176,14 +195,8 @@
                     "unique":"False"
                 },
                 {
-                    "name": "Contrato",
-                    "type": "String",
-                    "required": "False",
-                    "unique":"False"
-                },
-                {
-                    "name": "Foto",
-                    "type": "String",
+                    "name": "Area",
+                    "type": "Area",
                     "required": "True",
                     "unique":"False"
                 },
@@ -206,6 +219,7 @@
                 },
                 {
                     "name": "Nombre_Contacto",
+                    "title":"Nombre Contacto",
                     "type": "String",
                     "required": "True",
                     "unique":"True"
@@ -229,6 +243,7 @@
                 },
                 {
                     "name": "Nombre_Contacto",
+                    "title":"Nombre Contacto",
                     "type": "String",
                     "required": "True",
                     "unique":"True"
@@ -243,6 +258,7 @@
         },
         {
             "name": "Seguro",
+            "title":"Polizas de seguro",
             "fields": [
                 {
                     "name": "Poliza",
@@ -252,6 +268,7 @@
                 },
                 {
                     "name": "Vehiculo",
+                    "title":"Unidad",
                     "type": "Vehiculo",
                     "required": "False",
                     "unique":"False"
@@ -270,24 +287,28 @@
                 },
                 {
                     "name": "Tipo_carga",
+                    "title":"Tipo de Carga",
                     "type": "String",
                     "required": "False",
                     "unique":"False"
                 },
                 {
                     "name": "Fecha_alta",
+                    "title":"Fecha de alta",
                     "type": "DateTime",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Fecha_Vencimiento",
+                    "title":"Fecha de vencimiento",
                     "type": "DateTime",
                     "required": "False",
                     "unique":"False"
                 },
                 {
                     "name": "Prima_neta",
+                    "title":"Prima Neta",
                     "type": "Floating",
                     "required": "True",
                     "unique":"False"
@@ -308,6 +329,7 @@
         },
         { 
             "name": "Placa_y_refrendo",
+            "title":"Placas y Refrendos",
             "fields": [
                 {
                     "name": "Fecha",
@@ -323,6 +345,7 @@
                 },
                 {
                     "name": "Vehiculo",
+                    "title":"Unidad",
                     "type": "Vehiculo",
                     "required": "True",
                     "unique":"False"
@@ -336,22 +359,25 @@
             ]
         },
         {
-            "name": "Contratos",
+            "name": "Contrato",
             "fields": [
                 {
                     "name": "Fecha_inicio",
+                    "title":"Fecha de inicio",
                     "type": "DateTime",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Fecha_fin",
+                    "title":"Fecha de fin",
                     "type": "DateTime",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Vehiculo",
+                    "title":"Unidad",
                     "type": "Vehiculo",
                     "required": "False",
                     "unique":"False"
@@ -364,12 +390,14 @@
                 },
                 {
                     "name": "Pago_inicial",
+                    "title":"Pago inicial",
                     "type": "Floating",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Valor_residual",
+                    "title":"Valor Residual",
                     "type": "Floating",
                     "required": "True",
                     "unique":"False"
@@ -384,6 +412,7 @@
         },
         {
             "name": "Calendario_pago",
+            "title":"Pagos",
             "fields": [
                 {
                     "name": "Contrato",
@@ -393,12 +422,14 @@
                 },
                 {
                     "name": "Numero_pago",
+                    "title":"Numero de Pago",
                     "type": "Integer",
                     "required": "True",
                     "unique":"False"
                 },
                 {
                     "name": "Fecha_pago",
+                    "title":"Fecha de pago",
                     "type": "DateTime",
                     "required": "True",
                     "unique":"False"
@@ -417,8 +448,53 @@
                 },
                 {
                     "name": "es_ultimo_del_contrato",
+                    "title":"Ultimo pago",
                     "type": "Boolean",
                     "required": "False",
+                    "unique":"False"
+                }
+            ]
+        },
+        {
+            "name": "Area",
+            "fields": [
+                {
+                    "name": "Name",
+                    "title":"Area",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Chofer",
+            "fields": [
+                {
+                    "name": "Name",
+                    "title":"Chofer",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
+            "name": "Imagenes_vehiculo",
+            "title":"Imagenes de unidad",
+            "fields": [
+                {
+                    "name": "Vehiculo",
+                    "title":"Unidad",
+                    "type": "Vehiculo",
+                    "required": "True",
+                    "unique":"False"
+                },
+                {
+                    "name": "Path",
+                    "title":"Imagen",
+                    "type": "String",
+                    "required": "True",
                     "unique":"False"
                 }
             ]
