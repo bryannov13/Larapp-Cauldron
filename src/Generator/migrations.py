@@ -62,7 +62,7 @@ class migration_generator():
         
         self.txt.append("//"+str(self.model_name)+"_model \n")
         #up function
-        self.txt.append("\t\tSchema::create('"+self.model_name+"', function (Blueprint $table) {\n")
+        self.txt.append("\t\tSchema::create('"+self.model_name.lower()+"', function (Blueprint $table) {\n")
         self.txt.extend(self._set_fields())
         #print(self.txt)
         self.txt.append("\t\t});\n")#schema close
@@ -70,7 +70,7 @@ class migration_generator():
 
         #down function
         self.txt.append("\tpublic function down()\n\t{\n")#open
-        self.txt.append("\t\tSchema::dropIfExists('"+self.model_name+"');\n")
+        self.txt.append("\t\tSchema::dropIfExists('"+self.model_name.lower()+"');\n")
         self.txt.append("\n\t}\n") #Close
 
 

@@ -50,7 +50,7 @@ class model_generator():
         self.txt.append("#"+str(self.model_name)+"_model \n")
         self.txt.append("class "+self.model_name+" extends Model\n{\n\n")
         
-        self.txt.append("\tprotected $table= '"+str(self.model_name)+"';\n\n")
+        self.txt.append("\tprotected $table= '"+self.model_name.lower()+"';\n\n")
         self.txt.append("\tprotected $fillable = [\n")
         self.txt = self.txt + self.fields
         self.txt.append( "\n\t\t];\n")
