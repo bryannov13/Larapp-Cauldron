@@ -1,7 +1,7 @@
 from os import path as p
 from os import makedirs
-from .tools import get_file
-from .tools import set_directory
+from tools import get_file
+from tools import set_directory
 
 
 class controller_generator():
@@ -11,36 +11,35 @@ class controller_generator():
         self.fields=fields
         self.app_name = app_name
         self.model_name = model_name
-        
+        self._get_foreigns()
     
     def __set_default_dependencies(self):
         self.txt.append("<?php\n")
         self.txt.append("namespace "+self.app_name.capitalize()+"\Http\Controllers;\n") 
         #self.txt.append("use "+self.app_name.capitalize()+"\Http\Controllers\Controller;\n")
         self.txt.append("use "+self.app_name.capitalize()+"\Http\Requests\\"+self.model_name+"Request;\n")
-        self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+self.model_name+";\n")#revisr si va el doble diagonal
+        self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+self.model_name+";\n")
+        
+        #Calling foreigns
+        for f_key in self.foreigns: self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+f_key['name']+";\n")
+
         self.txt.append("use Yajra\Datatables\Datatables;\n")
         self.txt.append("\n")
     
-    def _set_fields(self,default_fields:bool=True)->list:
-        arra_txt = []
+    def _get_foreigns(self):
+        self.foreigns = []
         
         for i,field in enumerate(self.fields):
-            if i: arra_txt.append(',\n')
-            if field['type'] == 'Integer': arra_txt.append("\t\t\t\t\t'"+field['name']+"' => 'required|integer|max:9999|min:0'")
-            elif field['type'] == 'String': arra_txt.append("\t\t\t\t\t'"+field['name']+"' => 'required|string|max:255'")
-            elif field['type'] == 'Floating': arra_txt.append("\t\t\t\t\t'"+field['name']+"' => 'required|numeric|max:9999|min:0'")
-            #elif field['type'] == 'Boolean': arra_txt.append("\t\t\t$table->boolean('"+field['name']+"');\n")
-            elif field['type'] == 'DateTime': arra_txt.append("\t\t\t\t\t'"+field['name']+"' => 'required|date|max:9999|min:0'")
-            else: 
-                arra_txt.append("\t\t\t\t\t'"+field['name']+"' => 'required'")
-        
-        #if default_fields: arra_txt.extend(self.__set_default_fields())
+            #if i: arra_txt.append(',\n')
             
-        return arra_txt
-        
-    #def __set_default_fields(self)->list: return ["\t\t\t$table->boolean('status');\n","\n\t\t\t$table->timestamps();\n"]
-        
+            if not (field['type'] == 'Integer' or 
+                    field['type'] == 'String' or 
+                    field['type'] == 'Floating' or 
+                    field['type'] == 'Boolean' or 
+                    field['type'] == 'DateTime'):
+                
+                self.foreigns.append({"name":field['type'], "title":field['name']})
+        #print(self.foreigns)
     def set_file(self,path):
         if not p.exists(path): model_file = open(path,"x")
             
@@ -72,8 +71,8 @@ class controller_generator():
         #grid Function
         self.txt.append("\tpublic function grid("+self.model_name+"Request $request)\n")
         self.txt.append("\t{\n")
-        self.txt.append("\t\t$records = "+self.model_name+"::select('*');\n\n")
-        self.txt.append("\t\tif($request->inactive == 0) $records->where('status','1');\n\n")
+        self.txt.append("\t\t$records = "+self.model_name+"::select('*');\n")
+        self.txt.append("\n\t\tif($request->inactive == 0) $records->where('status','1');\n\n")
         self.txt.append("\t\treturn Datatables::of($records)\n")
         self.txt.append("\t\t\t->addColumn('actions',function($record){\n")
         self.txt.append("\t\t\t\treturn view('common.buttons',[\n")
@@ -91,7 +90,12 @@ class controller_generator():
         self.txt.append("\tpublic function create(){\n")
         self.txt.append("\t\t$action = 'add';\n")
         self.txt.append("\t\t$url    = '/"+self.model_name+"';\n")
-        self.txt.append("\t\treturn view('"+self.app_name+"."+self.model_name+".form',[\n")
+        
+        #foreigns
+        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['name']+" = "+f_key['name']+"::all()->where('status','1');\n")
+        
+        self.txt.append("\n\t\treturn view('"+self.app_name+"."+self.model_name+".form',[\n")
+        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['name']+"' => $"+f_key['name']+",\n")
         self.txt.append("\t\t\t'action' => $action,\n")
         self.txt.append("\t\t\t'url'    => $url\n")
         self.txt.append("\t\t]);\n")
@@ -114,7 +118,9 @@ class controller_generator():
         self.txt.append("\t\t$item = "+self.model_name+"::find($id);\n")
         self.txt.append("\t\t$action = 'show';\n")
         self.txt.append("\t\t$url    = '';\n")
-        self.txt.append("\t\treturn view('"+self.app_name+"."+self.model_name+".form', [\n")
+        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['name']+" = "+f_key['name']+"::all()->where('status','1');\n")
+        self.txt.append("\n\t\treturn view('"+self.app_name+"."+self.model_name+".form', [\n")
+        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['name']+"' => $"+f_key['name']+",\n")
         self.txt.append("\t\t\t'record' => $item,\n")
         self.txt.append("\t\t\t'action' => $action,\n")
         self.txt.append("\t\t\t'url'    => $url,\n")
@@ -127,7 +133,9 @@ class controller_generator():
         self.txt.append("\t\t$item = "+self.model_name+"::find($id);\n")
         self.txt.append("\t\t$action = 'edit';\n")
         self.txt.append("\t\t$url    = '/"+self.model_name+"/'.$item->id;\n")
-        self.txt.append("\t\treturn view('"+self.app_name+"."+self.model_name+".form', [\n")
+        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['name']+" = "+f_key['name']+"::all()->where('status','1');\n")
+        self.txt.append("\n\t\treturn view('"+self.app_name+"."+self.model_name+".form', [\n")
+        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['name']+"' => $"+f_key['name']+",\n")
         self.txt.append("\t\t\t'record' => $item,\n")
         self.txt.append("\t\t\t'action' => $action,\n")
         self.txt.append("\t\t\t'url'    => $url,\n")

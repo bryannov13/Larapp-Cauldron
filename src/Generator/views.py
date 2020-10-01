@@ -1,7 +1,7 @@
 from os import path as p
 from os import makedirs
-from .tools import get_file
-from .tools import set_directory
+from tools import get_file
+from tools import set_directory
 
 
 class index_generator():
@@ -153,8 +153,8 @@ class form_generator():
             else:
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select title="'+title+'" type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($items)\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($items as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($'+field['type']+')\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($'+field['type']+' as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(isset($register) && $register->'+field['name']+' == $item->id) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
@@ -241,7 +241,7 @@ class Views_Generator(object):
                 try:title = m['title']
                 except:title = m['name']
                 
-                print("Controlling "+m["name"]+" model ...")
+                print("viewing "+m["name"]+" model ...")
                 index_generator(m["name"],title,m['fields'],app["name"]).create(path= out_path+project_name+"/resources/views/"+app["name"]+"/"+m["name"],default_fields=True)
                 form_generator(m["name"],title,m['fields'],app["name"]).create(path= out_path+project_name+"/resources/views/"+app["name"]+"/"+m["name"],default_fields=True)
                 
