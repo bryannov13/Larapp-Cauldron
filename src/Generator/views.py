@@ -121,36 +121,37 @@ class form_generator():
 
     def _set_fields(self,default_fields:bool=True)->list:
         arra_txt = []
+        col_space = str(12)
+
+        if len(self.fields) > 5: col_space = str(6)
+        if len(self.fields) > 10: col_space = str(4)
         
+        arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
         for i,field in enumerate(self.fields):
             #if i: arra_txt.append(',\n')
 
             if field['type'] == 'Integer' or field['type'] == 'Floating':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
+
 
             elif field['type'] == 'String':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
+
 
             elif field['type'] == 'DateTime': 
-                arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+field['name']+': <span style="color:red">*</span></label>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
+
             else: 
-                arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="form-group col-md-12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="form-group col-md-'+col_space+'">\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>@lang("'+field['name']+'"):</label>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
@@ -161,7 +162,7 @@ class form_generator():
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t</select>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t</div>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
+        arra_txt.append('\t\t\t\t\t\t\t\t\t</div>\n')
                 
         #if default_fields: arra_txt.extend(self.__set_default_fields())
             
