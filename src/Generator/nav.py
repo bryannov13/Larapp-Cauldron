@@ -83,21 +83,24 @@ class js_generator():
         pass
     pass
 #Esto debe de ser un generador de Modules Table Seeder
-class Log_Generator(object):
+class Nav_Generator(object):
     def __init__(self,app:object,project_name,out_path):
         self.path= out_path+project_name+"/resources/"+"nav.php.bak"
         set_directory(out_path+project_name+"/resources/")
         self.file = self.set_file()
         self.arr_txt = []
 
-        print("Creando archivo log.php.bak ...")
+        print("Creando archivo nav.php.bak ...")
         for i,m in enumerate(app["tables"]):
             #if i: self.arr_txt.append(",\n")
+            try: title = m['title']
+            except: title = m['name']
+
             self.arr_txt.append("\t\t\t\t\t@if(auth()->user()->hasPermission('Ver-"+m["name"]+"'))\n")
             self.arr_txt.append('\t\t\t\t\t\t<li class="nav-item">\n')
             self.arr_txt.append('\t\t\t\t\t\t\t<a class="nav-link nav-item-pos" href="{{url("/'+m["name"]+'")}}">\n')
-            self.arr_txt.append('\t\t\t\t\t\t\t\t<span class="sidebar-mini">'+m["name"][0]+'</span>\n')
-            self.arr_txt.append('\t\t\t\t\t\t\t\t<span class="sidebar-normal">'+m["name"]+'</span>\n')
+            self.arr_txt.append('\t\t\t\t\t\t\t\t<span class="sidebar-mini">'+title[0]+'</span>\n')
+            self.arr_txt.append('\t\t\t\t\t\t\t\t<span class="sidebar-normal">'+title+'</span>\n')
             self.arr_txt.append('\t\t\t\t\t\t\t</a>\n')
             self.arr_txt.append('\t\t\t\t\t\t</li>\n')
             self.arr_txt.append('\t\t\t\t\t@endif\n')
@@ -118,7 +121,7 @@ if __name__ == "__main__":
     from json import load
     try:
         app= load(open('../../json_examples/trucks_admin.json'))
-        a = Log_Generator(app,'project','../../out/')
+        a = Nav_Generator(app,'project','../../out/')
     except Exception as e:
         print(e)
     
