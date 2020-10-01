@@ -6,11 +6,12 @@ from .tools import set_directory
 
 class js_generator():
     
-    def __init__(self, model_name:str,fields:list,app_name:str="App"):
+    def __init__(self, model_name:str,model_title:str,fields:list,app_name:str="App"):
         self.txt = []
         self.fields=fields
         self.app_name = app_name
         self.model_name = model_name
+        self.model_title = model_title
         
     
     def __set_default_dependencies(self):
@@ -25,8 +26,10 @@ class js_generator():
         arra_txt = []
         if len(self.fields)>0:
             for i,field in enumerate(self.fields):
+                try:title = field['title']
+                except:title = field['name']
                 if i: arra_txt.append(",\n")
-                arra_txt.append("\t\t\t\t{data: '"+field['name']+"', name: '"+field['name']+"', title: '"+field['name']+"'}")
+                arra_txt.append("\t\t\t\t{data: '"+field['name']+"', name: '"+field['name']+"', title: '"+title+"'}")
         
         if default_fields: arra_txt.extend(self.__set_default_fields())
             
@@ -87,8 +90,10 @@ class Js_Generator(object):
     def __init__(self,app:object,project_name,out_path):
         
         for m in app["tables"]:
+            try:title = m['title']
+            except:title = m['name']
             print("Js_ing "+m["name"]+" model ...")
-            model_ = js_generator(m["name"],m['fields'],app["name"])
+            model_ = js_generator(m["name"],title,m['fields'],app["name"])
             model_.create(path= out_path+project_name+"/public/assets/js",default_fields=True)
             #model_.set_fields(m["fields"])
         
