@@ -1,7 +1,7 @@
 from os import path as p
 from os import makedirs
-from tools import get_file
-from tools import set_directory
+from .tools import get_file
+from .tools import set_directory
 
 
 class controller_generator():
@@ -21,7 +21,7 @@ class controller_generator():
         self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+self.model_name+";\n")
         
         #Calling foreigns
-        for f_key in self.foreigns: self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+f_key['name']+";\n")
+        for f_key in self.foreigns: self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+f_key['name'].capitalize()+";\n")
 
         self.txt.append("use Yajra\Datatables\Datatables;\n")
         self.txt.append("\n")
