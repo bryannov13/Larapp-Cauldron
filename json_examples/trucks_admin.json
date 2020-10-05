@@ -107,7 +107,7 @@
                 },
                 {
                     "name": "Marca",
-                    "type": "marca_vehiculo",
+                    "type": "Marca_vehiculo",
                     "required": "True",
                     "unique":"False"
                 }
@@ -416,7 +416,7 @@
             "fields": [
                 {
                     "name": "Contrato",
-                    "type": "Contratos",
+                    "type": "Contrato",
                     "required": "True",
                     "unique":"False"
                 },
@@ -442,7 +442,7 @@
                 },
                 {
                     "name": "Observaciones",
-                    "type": "Sting",
+                    "type": "String",
                     "required": "False",
                     "unique":"False"
                 },
