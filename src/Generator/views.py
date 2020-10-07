@@ -1,7 +1,7 @@
 from os import path as p
 from os import makedirs
-from tools import get_file
-from tools import set_directory
+from .tools import get_file
+from .tools import set_directory
 
 
 class index_generator():
@@ -141,21 +141,21 @@ class form_generator():
             arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+title+': <span style="color:red">*</span></label>\n')
 
             if field['type'] == 'Integer' or field['type'] == 'Floating':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="number" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
 
             elif field['type'] == 'String':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" maxlength="100" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
 
 
             elif field['type'] == 'DateTime':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($register) ? $register->'+field['name']+' : "")}}" data-parsley-required>\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="datetime" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" data-parsley-required>\n')
 
             else:
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select title="'+title+'" type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($'+field['type']+')\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($'+field['type']+' as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(isset($register) && $register->'+field['name']+' == $item->id) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(isset($record) && $record->'+field['name']+' == $item->id) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t</select>\n')
