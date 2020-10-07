@@ -32,19 +32,44 @@ class projectGenerator():
     def createViews(self): Views_Generator(self.app,self.project_name,self.out_path)
         
     def start(self):
-        try:
-            self.createControllers()
-            self.createJs()
-            self.createMigrations()
-            self.createModels()
-            self.createRequest()
-            self.createRoutes()
-            self.createViews()
-        except Exception as e:
-            print(e)
-            rmtree(self.out_path+"/"+self.project_name)
-            #rmtree(self.out_path)
-            pass
+        if self.verify_foreigns():
+            try:
+                self.createControllers()
+                self.createJs()
+                self.createMigrations()
+                self.createModels()
+                self.createRequest()
+                self.createRoutes()
+                self.createViews()
+            except Exception as e:
+                print(e)
+                rmtree(self.out_path+"/"+self.project_name)
+
+    def verify_foreigns(self)->bool:
+        tables = []
+        foreigns = []
+        status = True
+        
+        #Recolectar nombres de tablas
+        for t in self.app['tables']: tables.append(t['name'])
+
+        #Recolectar tipos de foreigns
+        for t in self.app['tables']:
+            for f in t['fields']:
+                if not (f['type'] == 'String' or 
+                        f['type'] == 'Integer' or 
+                        f['type'] == 'Floating' or 
+                        f['type'] == 'DateTime' or 
+                        f['type'] == 'Boolean'):
+                    foreigns.append(f['type'])
+        
+        for f in foreigns:
+            if not (f in tables):
+                print(f + " No es una tabla")
+                status = False
+                
+        return status
+        pass
 
         pass
 
