@@ -28,6 +28,13 @@
                     "unique":"True"
                 },
                 {
+                    "name": "Vehiculo_id",
+                    "title":"Vehiculo",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
                     "name": "Fecha_Factura",
                     "title":"Fecha emision",
                     "type": "DateTime",
@@ -35,7 +42,8 @@
                     "unique":"False"
                 },
                 {
-                    "name": "Proveedor",
+                    "name": "Proveedor_id",
+                    "title":"Proveedor",
                     "type": "Proveedor",
                     "required": "True",
                     "unique":"False"
@@ -47,7 +55,7 @@
                     "unique":"False"
                 },
                 {
-                    "name": "Tipo",
+                    "name": "Tipo_activo_id",
                     "type": "Tipo_activo",
                     "required": "True",
                     "unique":"False",
@@ -106,7 +114,8 @@
                     "unique":"False"
                 },
                 {
-                    "name": "Marca",
+                    "name": "Marca_id",
+                    "title":"Marca",
                     "type": "Marca_vehiculo",
                     "required": "True",
                     "unique":"False"
@@ -130,28 +139,21 @@
             "title":"Unidad",
             "fields": [
                 {
-                    "name": "Activo",
-                    "title":"Factura",
-                    "type": "Activo",
-                    "required": "True",
-                    "unique":"False"
-                },
-                {
-                    "name": "Tipo_vehiculo",
+                    "name": "Tipo_vehiculo_id",
                     "title":"Tipo de vehiculo",
                     "type": "Tipo_vehiculo",
                     "required": "True",
                     "unique":"False"
                 },
                 {
-                    "name": "Edicion",
+                    "name": "Edicion_id",
                     "title":"Clase",
                     "type": "Edicion",
                     "required": "True",
                     "unique":"False"
                 },
                 {
-                    "name": "Color",
+                    "name": "Color_id",
                     "type": "Color",
                     "required": "True",
                     "unique":"False"
@@ -183,19 +185,19 @@
                     "unique":"False"
                 },
                 {
-                    "name": "Chofer",
+                    "name": "Chofer_id",
                     "type": "Chofer",
                     "required": "True",
                     "unique":"False"
                 },
                 {
-                    "name": "Arrendatario",
+                    "name": "Arrendatario_id",
                     "type": "Arrendatario",
                     "required": "True",
                     "unique":"False"
                 },
                 {
-                    "name": "Area",
+                    "name": "Area_id",
                     "type": "Area",
                     "required": "True",
                     "unique":"False"
@@ -257,6 +259,30 @@
             ]
         },
         {
+            "name": "Duenios_vehiculo",
+            "fields": [
+                {
+                    "name": "Empresa",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Nombre_Contacto",
+                    "title":"Nombre Contacto",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                },
+                {
+                    "name": "Telefono",
+                    "type": "String",
+                    "required": "True",
+                    "unique":"True"
+                }
+            ]
+        },
+        {
             "name": "Seguro",
             "title":"Polizas de seguro",
             "fields": [
@@ -267,7 +293,7 @@
                     "unique":"True"
                 },
                 {
-                    "name": "Vehiculo",
+                    "name": "Vehiculo_id",
                     "title":"Unidad",
                     "type": "Vehiculo",
                     "required": "False",
@@ -344,7 +370,7 @@
                     "unique":"False"
                 },
                 {
-                    "name": "Vehiculo",
+                    "name": "Vehiculo_id",
                     "title":"Unidad",
                     "type": "Vehiculo",
                     "required": "True",
@@ -415,7 +441,8 @@
             "title":"Pagos",
             "fields": [
                 {
-                    "name": "Contrato",
+                    "name": "Contrato_id",
+                    "title": "Contrato",
                     "type": "Contrato",
                     "required": "True",
                     "unique":"False"
@@ -484,7 +511,7 @@
             "title":"Imagenes de unidad",
             "fields": [
                 {
-                    "name": "Vehiculo",
+                    "name": "Vehiculo_id",
                     "title":"Unidad",
                     "type": "Vehiculo",
                     "required": "True",
