@@ -9,6 +9,7 @@ class generator():
         self.fields = []
         self.foreigns = []
 
+        self._separate_foreigns()
 
         self.txt = []
 
@@ -27,8 +28,8 @@ class generator():
             else:
                 self.fields
     
-    def _set_file(self,path:str,overwrite:bool=False)->stream:
-        if overwrite:
+    def _set_file(self,path:str,rewrite:bool=False):
+        if rewrite:
             if not p.exists(path): model_file = open(path,"x")
             else: model_file = open(path,"w")
             self.__set_default_dependencies()
@@ -48,4 +49,8 @@ class generator():
         self.txt.append("<?php\n")
 
     def _set_default_fields(self): pass
+
+    def _create_directory(self,path:str):
+        if not p.exists(path): makedirs(path,0o777)
+
     
