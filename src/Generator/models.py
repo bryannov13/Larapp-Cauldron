@@ -48,6 +48,18 @@ class model_generator(generator):
             self.txt.append("\t\treturn $this->BelongsTo('App\Models\\"+fk['type'].capitalize()+"','"+fk['name']+"');\n")
             self.txt.append("\t}\n")
             pass
+        
+        if self.foreigns:
+            self.txt.append("\tpublic static function get_all()\n")
+            self.txt.append("\t{\n")
+            self.txt.append("\t\treturn (new static)->with(\n")
+
+            for i,fk in enumerate(self.foreigns):
+                if i: self.txt.append(",\n")
+                self.txt.append("\t\t\t\t\t\t\t\t'"+fk['name']+"'")
+            
+            self.txt.append("\n\t\t\t\t\t\t\t);\n")
+            self.txt.append("\t}\n")
 
         self.txt.append("\tpublic function Info()\n")
         self.txt.append("\t{\n")
