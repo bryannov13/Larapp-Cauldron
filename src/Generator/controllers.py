@@ -68,6 +68,16 @@ class controller_generator():
         self.txt.append("\t\treturn view('"+self.app_name+"."+self.model_name+".index');\n")
         self.txt.append("\t}\n\n")
         
+
+        #index function
+        self.txt.append("\tprotected function mainQuery()\n")
+        self.txt.append("\t{\n")
+        self.txt.append("\t\t$query = "+self.model_name.capitalize()+"::get_all()\n\n")
+        self.txt.append("\t\tif($request->inactive == 0) $query->where('"+self.model_name.lower()+".status','1');\n\n")
+        self.txt.append("\t\treturn $query\n\n")
+        self.txt.append("\t}\n\n")
+        
+
         #grid Function
         self.txt.append("\tpublic function grid("+self.model_name+"Request $request)\n")
         self.txt.append("\t{\n")

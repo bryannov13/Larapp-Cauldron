@@ -38,11 +38,6 @@ Agregar en controladores main grid query
 		return $query;
 	}
 
-Funcion Info 
 
-public function Info()
-	{
-		return $this->Placas.', '.$this->edicion->Info().', Color:'.$this->color->Info();
-	}
 
 
