@@ -1,63 +1,46 @@
 from os import path as p
 from os import makedirs
+from generator import generator
+class model_generator(generator):
+    
+    def __init__(self, model_name,fields):
+        super().__init__(model_name,fields)
 
-class model_generator():
-    
-    def __init__(self, model_name):
-        self.txt=[]
-        self.fields=[]
-        self.model_name = model_name
-    
-    
-
-    def __set_default_dependencies(self):
-        self.txt.append("<?php\n")
+    def _set_default_dependencies(self):
+        super()._set_default_dependencies()
         self.txt.append("namespace App\Models;\n")
         self.txt.append("use Illuminate\Database\Eloquent\Model;\n")
         self.txt.append("\n")
     
-    def set_fields(self,fields)->list:
-        if len(fields)>0:
-            for i,field in enumerate(fields):
-                if i: self.fields.append(",\n")
-                self.fields.append("\t\t'"+str(field["name"])+"'")
+    def __get_fields(self)->list:
+        txt_fields = []
+        if len(self.fields)>0:
+            for i,field in enumerate(self._allFields):
+                if i: txt_fields.append(",\n")
+                txt_fields.append("\t\t'"+str(field["name"])+"'")
+        return txt_fields
         
-        
-    
     def __set_default_fields(self): return "\n\tprotected $hidden = ['created_at', 'updated_at', 'status'];\n"
         
     
-    def set_file(self,path):
-        if not p.exists(path):
-            model_file = open(path,"x")
-            self.__set_default_dependencies()
-            
-        else:
-            model_file = open(path,"a")
-            pass
-        
-        return model_file
-        pass
-    
     def create(self, path="./result", default_fields=False):
         
-        if not p.exists(path) :
-            makedirs(path,0o777)
+        self._create_directory(path)
+
         path= path+"/"+self.model_name+".php"
             
-        model_file = self.set_file(path)
+        model_file = self._set_file(path,True)
         
         self.txt.append("#"+str(self.model_name)+"_model \n")
         self.txt.append("class "+self.model_name+" extends Model\n{\n\n")
         
         self.txt.append("\tprotected $table= '"+self.model_name.lower()+"';\n\n")
         self.txt.append("\tprotected $fillable = [\n")
-        self.txt = self.txt + self.fields
+
+        self.txt.extend(self.__get_fields())
         self.txt.append( "\n\t\t];\n")
 
         if default_fields: self.txt.append(self.__set_default_fields())
-        
-        
         
         self.txt.append("\n}")
 
@@ -70,8 +53,8 @@ class Models_Generator(object):
         
         for m in app["tables"]:
             print("Cooking "+m["name"]+" model ...")            
-            model_ = model_generator(m["name"])
-            model_.set_fields(m["fields"])
+            model_ = model_generator(m["name"],m["fields"])
+            
             model_.create(path= out_path+project_name+"/"+app["name"]+"/Models",default_fields=True)
         try:
             pass
