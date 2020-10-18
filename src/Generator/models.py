@@ -20,14 +20,14 @@ class model_generator(generator):
                 txt_fields.append("\t\t'"+str(field["name"])+"'")
         return txt_fields
         
-    def __set_default_fields(self): return "\n\tprotected $hidden = ['created_at', 'updated_at', 'status'];\n"
+    def __set_default_fields(self): return "\n\tprotected $hidden = ['created_at', 'updated_at', 'status'];\n\n"
         
     
     def create(self, path="./result", default_fields=False):
         
         self._create_directory(path)
 
-        path= path+"/"+self.model_name+".php"
+        path= path+"/"+self.model_name.capitalize()+".php"
             
         model_file = self._set_file(path,True)
         
@@ -42,7 +42,14 @@ class model_generator(generator):
 
         if default_fields: self.txt.append(self.__set_default_fields())
         
-        self.txt.append("\n}")
+        for fk in self.foreigns:
+            self.txt.append("\tpublic function "+fk['type'].lower()+"()\n")
+            self.txt.append("\t{\n")
+            self.txt.append("\t\treturn $this->BelongsTo('App\Models\\"+fk['type'].capitalize()+"','"+fk['name']+"');\n")
+            self.txt.append("\t}\n")
+            pass
+
+        self.txt.append("}")
 
         model_file.writelines(self.txt)
         pass
