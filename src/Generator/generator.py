@@ -8,15 +8,16 @@ class generator():
         self.model_name = model_name
         self.fields = []
         self.foreigns = []
+        self._allFields = fields
 
-        self._separate_foreigns()
+        self._separate_foreigns(fields)
 
         self.txt = []
 
-    def _separate_foreigns(self):
+    def _separate_foreigns(self,fields):
         self.foreigns = []
         
-        for i,field in enumerate(self.fields):
+        for i,field in enumerate(fields):
             
             if not (field['type'] == 'Integer' or 
                     field['type'] == 'String' or 
@@ -26,18 +27,18 @@ class generator():
                 
                 self.foreigns.append(field)
             else:
-                self.fields
+                self.fields.append(field)
     
     def _set_file(self,path:str,rewrite:bool=False):
         if rewrite:
             if not p.exists(path): model_file = open(path,"x")
             else: model_file = open(path,"w")
-            self.__set_default_dependencies()
+            self._set_default_dependencies()
             
         else:
             if not p.exists(path):
                 model_file = open(path,"x")
-                self.__set_default_dependencies()
+                self._set_default_dependencies()
             
             else: model_file = open(path,"a")
             
