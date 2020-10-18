@@ -50,18 +50,18 @@ class model_generator(generator):
             pass
         
         if self.foreigns:
-            self.txt.append("\tpublic static function get_all()\n")
+            self.txt.append("\n\tpublic static function get_all()\n")
             self.txt.append("\t{\n")
             self.txt.append("\t\treturn (new static)->with(\n")
 
             for i,fk in enumerate(self.foreigns):
                 if i: self.txt.append(",\n")
-                self.txt.append("\t\t\t\t\t\t\t\t'"+fk['name']+"'")
+                self.txt.append("\t\t\t\t\t\t\t\t'"+fk['type'].lower()+"'")
             
             self.txt.append("\n\t\t\t\t\t\t\t);\n")
             self.txt.append("\t}\n")
 
-        self.txt.append("\tpublic function Info()\n")
+        self.txt.append("\n\tpublic function Info()\n")
         self.txt.append("\t{\n")
         self.txt.append("\t\treturn $this->"+self._allFields[0]['name']+"\n")
         self.txt.append("\t}\n")
