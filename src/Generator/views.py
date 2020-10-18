@@ -155,7 +155,7 @@ class form_generator():
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($'+field['type']+')\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($'+field['type']+' as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(isset($record) && $record->'+field['name']+' == $item->id) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(old("'+field['name']+'",isset($record) && $record->'+field['name']+' == $item->id)) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t</select>\n')
