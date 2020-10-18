@@ -15,28 +15,12 @@ Agregar formato de dato date y datetime
 
 En controladores funcion edit y create, pasar foreigns como minuscula
 
-
-En modelos agregar funcion info
-
 Correguir old en los foreigns
 @if(old('Area',isset($record) && $record->Area == $item->id)) selected @endif
 
 
 
 Aplicar nullable en migraciones, formularios, request si require is false
-
-
-Agregar en controladores main grid query
-
-	private function mainQuery(VehiculoRequest $request)
-	{
-		$query = Vehiculo::query()
-						->with('Activo');
-
-		if($request->inactive == 0) $query->where('vehiculo.status','1');
-
-		return $query;
-	}
 
 
 
