@@ -1,6 +1,6 @@
 from os import path as p
 from os import makedirs
-from generator import generator
+from .generator import generator
 class model_generator(generator):
     
     def __init__(self, model_name,fields):
