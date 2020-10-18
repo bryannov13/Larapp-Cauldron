@@ -49,6 +49,12 @@ class model_generator(generator):
             self.txt.append("\t}\n")
             pass
 
+        self.txt.append("\tpublic function Info()\n")
+        self.txt.append("\t{\n")
+        self.txt.append("\t\treturn $this->"+self._allFields[0]['name']+"\n")
+        self.txt.append("\t}\n")
+
+
         self.txt.append("}")
 
         model_file.writelines(self.txt)
