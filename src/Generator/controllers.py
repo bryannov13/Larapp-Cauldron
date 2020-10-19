@@ -2,26 +2,25 @@ from os import path as p
 from os import makedirs
 from .tools import get_file
 from .tools import set_directory
+from .generator import generator
 
 
-class controller_generator():
+class controller_generator(generator):
     
     def __init__(self, model_name:str,fields:list,app_name:str="App"):
-        self.txt = []
-        self.fields=fields
+        super().__init__(model_name,fields)
         self.app_name = app_name
-        self.model_name = model_name
-        self._get_foreigns()
-    
+
     def __set_default_dependencies(self):
-        self.txt.append("<?php\n")
+        super()._set_default_dependencies()
+
         self.txt.append("namespace "+self.app_name.capitalize()+"\Http\Controllers;\n") 
         #self.txt.append("use "+self.app_name.capitalize()+"\Http\Controllers\Controller;\n")
         self.txt.append("use "+self.app_name.capitalize()+"\Http\Requests\\"+self.model_name+"Request;\n")
         self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+self.model_name+";\n")
-        
+
         #Calling foreigns
-        for f_key in self.foreigns: self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+f_key['name'].capitalize()+";\n")
+        for f_key in self.foreigns: self.txt.append("use "+self.app_name.capitalize()+"\Models\\"+f_key['type'].capitalize()+";\n")
 
         self.txt.append("use Yajra\Datatables\Datatables;\n")
         self.txt.append("\n")
@@ -52,7 +51,8 @@ class controller_generator():
         
     def create(self, path, default_fields=False):
         
-        set_directory(path)
+        self._create_directory(path)
+        
         path= path+"/"+str(self.model_name)+"Controller.php"
         file = self.set_file(path)
         
@@ -70,18 +70,18 @@ class controller_generator():
         
 
         #index function
-        self.txt.append("\tprotected function mainQuery()\n")
+        self.txt.append("\tprotected function mainQuery("+self.model_name+"Request $request)\n")
         self.txt.append("\t{\n")
-        self.txt.append("\t\t$query = "+self.model_name.capitalize()+"::get_all()\n\n")
+        self.txt.append("\t\t$query = "+self.model_name.capitalize()+"::get_all();\n\n")
         self.txt.append("\t\tif($request->inactive == 0) $query->where('"+self.model_name.lower()+".status','1');\n\n")
-        self.txt.append("\t\treturn $query\n\n")
+        self.txt.append("\t\treturn $query;\n\n")
         self.txt.append("\t}\n\n")
         
 
         #grid Function
         self.txt.append("\tpublic function grid("+self.model_name+"Request $request)\n")
         self.txt.append("\t{\n")
-        self.txt.append("\t\t$records = "+self.model_name+"::select('*');\n")
+        self.txt.append("\t\t$records = $this->mainQuery($request);\n")
         self.txt.append("\n\t\tif($request->inactive == 0) $records->where('status','1');\n\n")
         self.txt.append("\t\treturn Datatables::of($records)\n")
         self.txt.append("\t\t\t->addColumn('actions',function($record){\n")
@@ -102,10 +102,10 @@ class controller_generator():
         self.txt.append("\t\t$url    = '/"+self.model_name+"';\n")
         
         #foreigns
-        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['name']+" = "+f_key['name']+"::all()->where('status','1');\n")
+        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['type']+" = "+f_key['type']+"::all()->where('status','1');\n")
         
         self.txt.append("\n\t\treturn view('"+self.app_name+"."+self.model_name+".form',[\n")
-        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['name']+"' => $"+f_key['name']+",\n")
+        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['type'].lower()+"' => $"+f_key['type']+",\n")
         self.txt.append("\t\t\t'action' => $action,\n")
         self.txt.append("\t\t\t'url'    => $url\n")
         self.txt.append("\t\t]);\n")
@@ -128,9 +128,9 @@ class controller_generator():
         self.txt.append("\t\t$item = "+self.model_name+"::find($id);\n")
         self.txt.append("\t\t$action = 'show';\n")
         self.txt.append("\t\t$url    = '';\n")
-        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['name']+" = "+f_key['name']+"::all()->where('status','1');\n")
+        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['type']+" = "+f_key['type'].capitalize()+"::all()->where('status','1');\n")
         self.txt.append("\n\t\treturn view('"+self.app_name+"."+self.model_name+".form', [\n")
-        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['name']+"' => $"+f_key['name']+",\n")
+        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['type'].lower()+"' => $"+f_key['type']+",\n")
         self.txt.append("\t\t\t'record' => $item,\n")
         self.txt.append("\t\t\t'action' => $action,\n")
         self.txt.append("\t\t\t'url'    => $url,\n")
@@ -140,12 +140,12 @@ class controller_generator():
         
         #edit function
         self.txt.append("\tpublic function edit($id){\n")
-        self.txt.append("\t\t$item = "+self.model_name+"::find($id);\n")
+        self.txt.append("\t\t$item = "+self.model_name.capitalize()+"::find($id);\n")
         self.txt.append("\t\t$action = 'edit';\n")
         self.txt.append("\t\t$url    = '/"+self.model_name+"/'.$item->id;\n")
-        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['name']+" = "+f_key['name']+"::all()->where('status','1');\n")
+        for f_key in self.foreigns:self.txt.append("\t\t$"+f_key['type']+" = "+f_key['type'].capitalize()+"::all()->where('status','1');\n")
         self.txt.append("\n\t\treturn view('"+self.app_name+"."+self.model_name+".form', [\n")
-        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['name']+"' => $"+f_key['name']+",\n")
+        for f_key in self.foreigns:self.txt.append("\t\t\t'"+f_key['type'].lower()+"' => $"+f_key['type']+",\n")
         self.txt.append("\t\t\t'record' => $item,\n")
         self.txt.append("\t\t\t'action' => $action,\n")
         self.txt.append("\t\t\t'url'    => $url,\n")
@@ -198,7 +198,7 @@ class controller_generator():
         pass
     pass
 
-class Controllers_Generator(object):
+class Controllers_Generator():
     def __init__(self,app:object,project_name,out_path):
         
         for m in app["tables"]:

@@ -2,7 +2,7 @@ from os import path as p
 from os import makedirs
 from .tools import get_file
 from .tools import set_directory
-
+from .generator import generator
 
 class index_generator():
     
@@ -103,17 +103,14 @@ class index_generator():
         pass
     pass
 
-class form_generator():
+class form_generator(generator):
     
     def __init__(self, model_name:str,model_title:str,fields:list,app_name:str="App"):
-        self.txt = []
-        self.fields=fields
-        self.app_name = app_name
-        self.model_name = model_name
+        super().__init__(model_name,fields)
         self.model_title = model_title
         
     
-    def __set_default_dependencies(self):
+    def _set_default_dependencies(self):
         #Dependencies
         self.txt.append("<!--"+str(self.model_name)+"_model -->\n")
         self.txt.append("@extends('layouts.app')\n")
@@ -121,15 +118,15 @@ class form_generator():
         self.txt.append("@section('content')\n\n")
 
 
-    def _set_fields(self,default_fields:bool=True)->list:
+    def __get_fields(self,default_fields:bool=True)->list:
         arra_txt = []
         col_space = str(12)
 
-        if len(self.fields) > 5: col_space = str(6)
-        if len(self.fields) > 10: col_space = str(4)
+        if len(self._allFields) > 5: col_space = str(6)
+        if len(self._allFields) > 10: col_space = str(4)
         
         arra_txt.append('\t\t\t\t\t\t\t\t\t<div class="row">\n')
-        for i,field in enumerate(self.fields):
+        for i,field in enumerate(self._allFields):
             #if i: arra_txt.append(',\n')
 
             arra_txt.append('\t\t\t\t\t\t\t\t\t\t<div class="col-'+col_space+'">\n')
@@ -146,15 +143,14 @@ class form_generator():
             elif field['type'] == 'String':
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" maxlength="100" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
 
-
             elif field['type'] == 'DateTime':
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="datetime" name="'+field['name']+'" id="'+field['name']+'" class="form-control datetimepicker" value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" data-parsley-required>\n')
 
             else:
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<select title="'+title+'" type="text" class="form-control" name="'+field['name']+'" id="'+field['name']+'" >\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t<option value="">- Seleccione -</option>\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($'+field['type']+')\n')
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($'+field['type']+' as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@isset($'+field['type'].lower()+')\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@foreach($'+field['type'].lower()+' as $item)\n')#Pendiente hacer clase superior que incluya foreign keys, fields, model_name entre otros
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option @if(old("'+field['name']+'",isset($record) && $record->'+field['name']+' == $item->id)) selected @endif value="{{$item->id}}">{{ $item->id }}</option>\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t\t@endforeach\n')
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t\t@endisset\n')
@@ -168,21 +164,13 @@ class form_generator():
         return arra_txt
         
     #def __set_default_fields(self)->list: return ["\t\t\t$table->boolean('status');\n","\n\t\t\t$table->timestamps();\n"]
-        
-    def set_file(self,path):
-        if not p.exists(path): model_file = open(path,"x")
-            
-        else: model_file = open(path,"w")
-        
-        self.__set_default_dependencies()
-        
-        return model_file
-        
+
     def create(self, path, default_fields=False):
-        
-        set_directory(path)
+
+        self._create_directory(path)
+
         path= path+"/form.blade.php"
-        file = self.set_file(path)
+        file = self._set_file(path,True)
         
         
         self.txt.append("@include('alerts.message')\n")
@@ -205,7 +193,7 @@ class form_generator():
         self.txt.append('\t\t\t\t\t\t\t\t\t\t<input name="id" type="hidden" value="{{$record->id}}">\n')
         self.txt.append('\t\t\t\t\t\t\t\t\t@endif\n')
 
-        self.txt.extend(self._set_fields())
+        self.txt.extend(self.__get_fields())
 
         self.txt.append('\t\t\t\t\t\t\t\t\t<div class="form-group m-t-1">\n')
         self.txt.append('\t\t\t\t\t\t\t\t\t\t<div class="pull-right">\n')
@@ -248,7 +236,7 @@ class Views_Generator(object):
                 #model_.set_fields(m["fields"]) resources\views\area\index.blade.php
                 pass
         except Exception as e:
-            print("Controller:\n")
+            print("Views:\n")
             print(e)
             pass
                 

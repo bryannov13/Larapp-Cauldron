@@ -29,7 +29,7 @@ class model_generator(generator):
 
         path= path+"/"+self.model_name.capitalize()+".php"
             
-        model_file = self._set_file(path,True)
+        model_file = self._set_file(path)
         
         self.txt.append("#"+str(self.model_name)+"_model \n")
         self.txt.append("class "+self.model_name+" extends Model\n{\n\n")
@@ -66,7 +66,7 @@ class model_generator(generator):
 
         self.txt.append("\n\tpublic function Info()\n")
         self.txt.append("\t{\n")
-        self.txt.append("\t\treturn $this->"+self._allFields[0]['name']+"\n")
+        self.txt.append("\t\treturn $this->"+self._allFields[0]['name']+";\n")
         self.txt.append("\t}\n")
 
 
