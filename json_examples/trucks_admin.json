@@ -21,6 +21,13 @@
             "title":"Facturas",
             "fields": [
                 {
+                    "name": "Vehiculo",
+                    "title":"Unidad",
+                    "type": "Vehiculo",
+                    "required": "False",
+                    "unique":"False"
+                },
+                {
                     "name": "Num_Factura",
                     "title":"Num Factura",
                     "type": "String",
@@ -129,13 +136,6 @@
             "name": "Vehiculo",
             "title":"Unidad",
             "fields": [
-                {
-                    "name": "Activo",
-                    "title":"Factura",
-                    "type": "Activo",
-                    "required": "True",
-                    "unique":"False"
-                },
                 {
                     "name": "Tipo_vehiculo",
                     "title":"Tipo de vehiculo",
