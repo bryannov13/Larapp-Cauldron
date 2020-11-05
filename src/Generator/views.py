@@ -138,7 +138,7 @@ class form_generator(generator):
             arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<label>'+title+': <span style="color:red">*</span></label>\n')
 
             if field['type'] == 'Integer' or field['type'] == 'Floating':
-                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="number" name="'+field['name']+'" id="'+field['name']+'" class="form-control change_salary" value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999" maxlength="12">\n')
+                arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="number" name="'+field['name']+'" id="'+field['name']+'" class="form-control" value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" data-parsley-required data-parsley-type="number" min="0" max="9999999" maxlength="12">\n')
 
             elif field['type'] == 'String':
                 arra_txt.append('\t\t\t\t\t\t\t\t\t\t\t<input title="'+title+'" type="text" name="'+field['name']+'" maxlength="100" data-parsley-maxlength="100" data-parsley-required value="{{old("'+field['name']+'", isset($record) ? $record->'+field['name']+' : "")}}" class="form-control">\n')
